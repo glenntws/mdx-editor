@@ -177,7 +177,12 @@ const EditorRootElement: React.FC<{
       styles.popupContainer,
       ...(className ?? '').trim().split(' ').filter(Boolean)
     )
-    document.body.appendChild(popupContainer)
+    const rootNode = editorRootElementRef.current?.getRootNode() as ShadowRoot | Document
+    if (rootNode instanceof ShadowRoot) {
+      rootNode.appendChild(popupContainer)
+    } else {
+      document.body.appendChild(popupContainer)
+    }
     editorRootElementRef.current = popupContainer
     setEditorRootElementRef(editorRootElementRef)
     return () => {

@@ -6,7 +6,8 @@ import { useCellValue } from '@mdxeditor/gurx'
 
 export const PopoverPortal = (props: RadixPopover.PopoverPortalProps) => {
   const editorRootElementRef = useCellValue(editorRootElementRef$)
-  return <RadixPopover.Portal {...props} container={editorRootElementRef?.current} />
+  const rootNode = editorRootElementRef?.current?.getRootNode() as ShadowRoot | Document
+  return <RadixPopover.Portal {...props} container={rootNode instanceof ShadowRoot ? rootNode : undefined} />
 }
 
 export const PopoverContent = React.forwardRef<any, React.ComponentProps<typeof RadixPopover.Content>>(
