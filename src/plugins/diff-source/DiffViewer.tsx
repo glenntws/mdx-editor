@@ -54,6 +54,8 @@ export const DiffViewer: React.FC = () => {
           revertControls: 'a-to-b'
         } as const)
 
+    const rootNode = elRef.current?.getRootNode() as ShadowRoot | Document
+
     cmMergeViewRef.current = new MergeView({
       ...revertParams,
       parent: elRef.current!,
@@ -80,7 +82,8 @@ export const DiffViewer: React.FC = () => {
             return null
           })
         ]
-      }
+      },
+      root: rootNode instanceof ShadowRoot ? rootNode : undefined
     })
     return () => {
       cmMergeViewRef.current?.destroy()
